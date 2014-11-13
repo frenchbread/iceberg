@@ -31,3 +31,11 @@ def home(request):
     context = RequestContext(request)
     context_vars.update({'state': state})
     return render_to_response(template, context_vars, context_instance=context)
+
+
+def cal(request):
+
+    context_vars={}
+    context_vars.update(csrf(request))
+
+    return render_to_response('cal.html', context_vars, context_instance=RequestContext(request))

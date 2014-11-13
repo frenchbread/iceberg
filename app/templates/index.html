@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <title>IceBerg</title>
-  </head>
-  <body>
-  	<div class="formBox">
-  		<header>
-  			Welcome to IceBerg
-  		</header>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IceBerg</title>
+    <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+{% if not user.is_authenticated %}
+<div class="container" style="width: 300px">
 
-  		<div class="main">
-          {% if not user.is_authenticated %}
-  			   <form role="form" method="post" action="">
-  			     {% csrf_token %}
-  			        <p class="has-feedback">
-                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
-  				        <input class="form-control" name="username" placeholder="Username" type="text"/>
-  			        </p>
-  			        <p class="has-feedback">
-                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-  				        <input class="form-control" name="password" placeholder="Password" type="password"/>
-  			        </p>
-  			        <p style="padding-top:10px">
-  				        <input type="submit" class="btn btn-primary btn-sm" value="Login" />
-  			        </p>
-                <p id="errHere" style="color:#ff0000;"></p>
-  	        </form>
-            {% else %}
-              <b>Hello and enjoy!</b> <a href="{% url 'logout' %}">Logout</a>
-            {% endif %}
-  		</div>
-    		{% if state %}
-    		  <script>
-            document.getElementById("errHere").innerHTML = "{{state}}";
-    		  </script>
-    		{% endif %}
-	   </div>
-  </body>
+    <form class="form-signin" role="form" method="post" action="?">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="username" class="form-control" placeholder="username" name="username" required autofocus>
+        <input type="password" class="form-control" placeholder="Password" name="password" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <p id="errHere" style="color:#ff0000;"></p>
+    </form>
+    {% if state %}
+    <script>
+        document.getElementById("errHere").innerHTML = "{{state}}";
+    </script>
+    {% endif %}
+
+</div>
+{% else %}
+    <b>Hello and enjoy!</b> <a href="{% url 'logout' %}">Logout</a>
+{% endif %}
+<script src="{{STATIC_URL}}js/jquery.min.js"></script>
+<script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+</body>
 </html>
