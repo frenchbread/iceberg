@@ -12,40 +12,37 @@ from django.contrib.auth.models import User
 
 def home(request):
 
-    context_vars={}
-    context_vars.update(csrf(request))
-    username = password = state = ''
-
-    if request.POST:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse("home"))
-            else:
-                state = "Your account is not active, please contact the support."
-        else:
-            state = "Your username or password were incorrect."
-
-    template = 'index.html'
-    context = RequestContext(request)
-    context_vars.update({'state': state})
-    return render_to_response(template, context_vars, context_instance=context)
-
-
-def cal(request):
-
     args={}
     args.update(csrf(request))
 
-    e = Event.objects.filter(user=request.user)
+    if request.user.is_authenticated():
 
-    args.update({'e': e})
+        e = Event.objects.filter(user=request.user)
+        args.update({'e': e})
+        template = 'cal.html'
 
-    return render_to_response('cal.html', args, context_instance=RequestContext(request))
+    else:
+
+        username = password = state = ''
+        if request.POST:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse("home"))
+                else:
+                    state = "Your account is not active, please contact the support."
+            else:
+                state = "Your username or password were incorrect."
+
+        args.update({'state': state})
+        template = 'index.html'
+
+    context = RequestContext(request)
+    return render_to_response(template, args, context_instance=context)
 
 
 def addEvent(request):
@@ -65,7 +62,7 @@ def addEvent(request):
             form.save()
             status = 1
 
-            return HttpResponseRedirect(reverse('cal', ))
+            return HttpResponseRedirect(reverse('home'))
     else:
         form = EventForm()
         status = 0
