@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'iceberg.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd7uifinna0ispv',
         'HOST': 'ec2-54-204-39-187.compute-1.amazonaws.com',
         'USER': 'akdslwgcbrcuqk',
