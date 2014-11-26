@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css" rel="Stylesheet" />
+<script language="javascript" type="text/javascript" src="{{STATIC_URL}}js/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Add new event</h1>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form role="form" action="" method="POST">
+                    {% csrf_token %}
+                    {% for f in form %}
+                        <div class="form-group">{{ f }}</div>
+                    {% endfor %}
+                        <div class="form-group"><input value="Submit" type="submit" class="btn btn-default"/></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+      $(function(){
+        $("#id_start_day").datepicker();
+        $("#id_start_day").timepicker();
+      });
+    </script>
+</body>
+</html>
